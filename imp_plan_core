@@ -1,0 +1,57 @@
+Core Refactoring and Dependency Injection Implementation
+The goal is to modernize the core layer of the Waseet project by centralizing dependency management, standardizing error handling, and cleaning up the common tools.
+
+User Review Required
+IMPORTANT
+
+The manual dependency injection currently in main.dart will be moved to lib/core/config/di.dart. This will make main.dart much cleaner but changes how Blocs are accessed (via getIt<T>()).
+
+Proposed Changes
+Core Error Handling
+Standardize how errors are categorized and handled across the app.
+
+[MODIFY] 
+failures.dart
+Expand the Failure class and its subclasses to include:
+ServerFailure
+CacheFailure
+NetworkFailure
+AuthFailure
+ValidationFailure
+UnexpectedFailure
+[NEW] 
+exceptions.dart
+Define Exception classes used in the data layer (e.g., ServerException, CacheException, NetworkException).
+Core Network
+Fix naming and improve network utilities.
+
+[DELETE] 
+netwrok_info.dart
+[NEW] 
+network_info.dart
+Correct the typo and maintain the NetworkInfo interface and implementation.
+Dependency Injection
+Centralize all project dependencies.
+
+[MODIFY] 
+di.dart
+Implement initGetIt() (or configureDependencies()) to register:
+External: FirebaseFirestore, FirebaseAuth, FirebaseMessaging, InternetConnectionChecker, Hive.
+Core: NetworkInfo.
+Features: DataSources, Repositories, UseCases, and Blocs for Auth, Trips, Bookings, Favorites, and Theme.
+Main Integration
+Cleanup main.dart.
+
+[MODIFY] 
+main.dart
+Call initGetIt() during app startup.
+Replace manual dependency creation with getIt<T>().
+Use BlocProvider with getIt to provide blocs to the widget tree.
+Verification Plan
+Automated Tests
+Run flutter test to ensure no regressions (if tests exist).
+Verify DI container initialization by running the app.
+Manual Verification
+Verify that the app still starts correctly and navigates to the splash screen.
+Test login/signup flow to ensure DI for Auth is working.
+Test trip listing and booking to ensure DI for Trips/Bookings is working.

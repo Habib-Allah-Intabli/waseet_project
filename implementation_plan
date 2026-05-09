@@ -1,0 +1,38 @@
+Redesign Home View and Add Trip View
+This plan outlines the steps to overhaul the UI for the Home Screen and the Add Trip Screen based on the provided tailwind HTML specifications. The redesign will significantly enhance the application's aesthetics by using modern "Bento grid" layouts, rich color tokens, and improved typography.
+
+User Review Required
+IMPORTANT
+
+The redesign introduces custom color tokens and styles that may require significant changes to app_theme.dart. Please review the proposed UI adjustments below. Are there any other screens that should be updated to use this new theme alongside these two?
+
+Proposed Changes
+Core Theme
+[MODIFY] 
+app_theme.dart
+Update AppTheme.lightTheme to incorporate the specific colors from the design (e.g., #000666 for primary, #f8f9ff for background).
+Add new custom color extensions to support tokens like surfaceContainerLow, tertiaryFixed, outlineVariant, etc., which are heavily used in the mockups.
+Ensure fonts (Cairo and IBM Plex Sans Arabic) are configured correctly across different text themes.
+Home Feature
+[MODIFY] 
+home_view.dart
+Top Navigation Bar: Create a custom blurred sticky header displaying the user profile picture, a menu button, and the app title ("وسيط").
+Hero & Search Section: Add a greeting message and a quick search component with "From" and "To" input fields and a gradient search button.
+Smart Match Banner: Add the promotional banner displaying available trips with a background image.
+Filter Tabs: Create horizontally scrollable chips for "الكل" (All), "أشخاص" (People), and "أغراض" (Parcels).
+Trip Feed: Redesign the ListView.builder items into rich cards displaying driver details, ratings, prices, route details with times, and available seats/parcel status.
+Floating Action Button: Restyle the FAB with the new gradient and shadow for adding trips.
+Trips Feature
+[MODIFY] 
+add_trip_view.dart
+Header & Progress: Add a custom app bar and a progress indicator showing "المرحلة 1 من 3".
+Route Section: Create custom dropdown-like selectors for "From" and "To" cities with an interactive swap button in between.
+Timing & Capacity: Replace standard form fields with a modern date/time picker and a stylized stepper counter for seats.
+Options & Preferences: Implement custom styled switches for allowing parcels, and an input for suggesting a price and additional notes.
+Bottom Action Bar: Implement a sticky bottom bar with a gradient "نشر الرحلة" (Publish Trip) button, connecting it to the TripsBloc dispatch event.
+Verification Plan
+Manual Verification
+Run the app and navigate to the Home screen. Verify the hero section, smart banner, and trip cards appear as in the design.
+Ensure the user can scroll through the trips cleanly and the tabs are interactable.
+Tap the Floating Action Button and verify the Add Trip screen opens.
+Fill out the Add Trip form elements, ensure the custom form inputs properly capture state, and the trip is successfully added via TripsBloc.

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "526066959807",
+    "project_id": "wasset-project-68cc3",
+    "storage_bucket": "wasset-project-68cc3.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:526066959807:android:eb31b4cc45d1632c33cd0a",
+        "android_client_info": {
+          "package_name": "com.example.waseet_project"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC41GDFAGauiDwspUJrtRpuQr4w_Cg0cVk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
