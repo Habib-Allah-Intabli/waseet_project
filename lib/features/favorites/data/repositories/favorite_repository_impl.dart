@@ -35,7 +35,7 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
       await remoteDataSource.addToFavorites(userId, model);
       return const Right(null);
     } catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Left(handleException(e));
     }
   }
 
@@ -45,7 +45,7 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
       await remoteDataSource.removeFromFavorites(userId, tripId);
       return const Right(null);
     } catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Left(handleException(e));
     }
   }
 
@@ -55,7 +55,7 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
       final result = await remoteDataSource.getFavorites(userId);
       return Right(result);
     } catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Left(handleException(e));
     }
   }
 }

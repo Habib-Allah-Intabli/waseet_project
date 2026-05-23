@@ -1,3 +1,5 @@
+import 'exceptions.dart';
+
 abstract class Failure {
   final String message;
   const Failure(this.message);
@@ -25,4 +27,24 @@ class ValidationFailure extends Failure {
 
 class UnexpectedFailure extends Failure {
   const UnexpectedFailure([super.message = 'حدث خطأ غير متوقع']);
+}
+
+Failure handleException(Object e) {
+  if (e is ServerException) {
+    return ServerFailure(e.message);
+  } else if (e is NetworkException) {
+    return NetworkFailure(e.message);
+  } else if (e is CacheException) {
+    return CacheFailure(e.message);
+  } else if (e is AuthException) {
+    return AuthFailure(e.message);
+  } else if (e is ValidationException) {
+    return ValidationFailure(e.message);
+  }
+
+  String message = e.toString();
+  if (message.startsWith('Exception: ')) {
+    message = message.substring('Exception: '.length);
+  }
+  return UnexpectedFailure(message);
 }

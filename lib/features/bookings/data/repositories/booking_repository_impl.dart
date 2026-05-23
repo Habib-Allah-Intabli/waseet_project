@@ -43,7 +43,7 @@ class BookingRepositoryImpl implements BookingRepository {
       
       return const Right(null);
     } catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Left(handleException(e));
     }
   }
 
@@ -53,7 +53,7 @@ class BookingRepositoryImpl implements BookingRepository {
       final result = await remoteDataSource.getMyBookings(userId);
       return Right(result);
     } catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Left(handleException(e));
     }
   }
 }

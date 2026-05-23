@@ -30,7 +30,7 @@ class TripsRepositoryImpl implements TripsRepository {
       await remoteDataSource.createTrip(model);
       return const Right(null);
     } catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Left(handleException(e));
     }
   }
 
@@ -46,7 +46,7 @@ class TripsRepositoryImpl implements TripsRepository {
       );
       return Right(result);
     } catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Left(handleException(e));
     }
   }
 
@@ -56,7 +56,7 @@ class TripsRepositoryImpl implements TripsRepository {
       final result = await remoteDataSource.getMyTrips(userId);
       return Right(result);
     } catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Left(handleException(e));
     }
   }
 }

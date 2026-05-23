@@ -31,6 +31,16 @@ class MockCompleteOnboardingUseCase extends Mock
     implements CompleteOnboardingUseCase {}
 
 void main() {
+  setUpAll(() {
+    registerFallbackValue(const UserEntity(
+      uId: '',
+      fullName: '',
+      email: '',
+      phone: '',
+      password: '',
+    ));
+  });
+
   late AuthBloc authBloc;
   late MockLoginUseCase mockLoginUseCase;
   late MockSignupUseCase mockSignupUseCase;
@@ -234,7 +244,7 @@ void main() {
   });
 
   group('UpdateProfileRequested', () {
-    test('should emit loading then authenticated when update succeeds', () {
+    test('should emit loading then authenticated when update succeeds', () async {
       // Arrange
       when(
         () => mockUpdateProfileUseCase(user: any(named: 'user')),
@@ -244,7 +254,7 @@ void main() {
       authBloc.add(const UpdateProfileRequested(user: testUser));
 
       // Assert
-      expectLater(
+      await expectLater(
         authBloc.stream,
         emitsInOrder([
           AuthState(status: AuthStatus.loading, user: testUser),
@@ -253,7 +263,7 @@ void main() {
       );
     });
 
-    test('should emit error when update fails', () {
+    test('should emit error when update fails', () async {
       // Arrange
       when(
         () => mockUpdateProfileUseCase(user: any(named: 'user')),
@@ -263,15 +273,16 @@ void main() {
       authBloc.add(const UpdateProfileRequested(user: testUser));
 
       // Assert
-      expectLater(
+      await expectLater(
         authBloc.stream,
-        emits(
+        emitsInOrder([
+          AuthState(status: AuthStatus.loading, user: testUser),
           AuthState(
             status: AuthStatus.error,
             user: testUser,
             errorMessage: 'Update failed',
           ),
-        ),
+        ]),
       );
     });
   });

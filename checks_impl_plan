@@ -1,0 +1,78 @@
+# Waseet Project Code Review & Enhancement Implementation Plan
+
+This plan outlines the approach to systematically review and improve the Waseet Project codebase according to the requested 10-point checklist.
+
+## User Review Required
+
+> [!IMPORTANT]
+> Please review the proposed approach for testing and deployment setups. Some of these (like CI/CD and specific testing frameworks) might require decisions based on your hosting environment and specific team preferences.
+
+## Open Questions
+
+> [!WARNING]
+> 1. **Testing Framework:** Do you have a preferred testing framework beyond the standard `flutter_test` (e.g., `mocktail` which is currently in pubspec, but are there specific e2e test requirements)?
+> 2. **CI/CD:** Do you have a preferred CI/CD pipeline (e.g., GitHub Actions, Codemagic, Bitrise)?
+> 3. **Documentation Format:** Do you want the API/Endpoint documentation in the README or a separate `docs/` folder?
+
+## Proposed Changes
+
+---
+
+### Phase 1: Code Quality, Error Handling & Performance
+*Review files to clean up dead code, standardize naming, enhance error handling, and optimize performance.*
+
+#### `lib/` (Entire Codebase)
+- Run `flutter analyze` and address all lint warnings/errors.
+- Identify and remove unused imports, variables, and dead code.
+- Ensure all `catch` blocks properly log errors or map to domain failures (e.g., mapping Firebase exceptions to `ServerFailure`).
+- Remove any `print()` or debugging statements and replace them with a proper logging mechanism if output is still required.
+
+#### `lib/core/error/failures.dart`
+- Ensure exhaustive error handling by creating specific `Failure` subclasses for different Firebase auth/firestore exceptions.
+
+### Phase 2: Documentation & Project Structure
+*Organize the project and add necessary documentation.*
+
+#### [MODIFY] [README.md](file:///c:/Users/Lenovo/Desktop/waseet_project/README.md)
+- Update with a comprehensive project description, installation steps, usage examples, and architecture overview.
+
+#### [NEW] [CHANGELOG.md](file:///c:/Users/Lenovo/Desktop/waseet_project/CHANGELOG.md)
+- Create initial changelog structure.
+
+#### `lib/` (Structural Review)
+- Verify that `core`, `features`, and `widget` folders strictly adhere to Clean Architecture. 
+- Ensure that widgets inside `features/` are feature-specific and generic widgets are in `widget/` (or `core/presentation/widgets`). Add JSDoc/DartDoc to complex BLoCs and UseCases.
+
+### Phase 3: Dependencies & Security
+*Audit and update packages, verify security practices.*
+
+#### [MODIFY] [pubspec.yaml](file:///c:/Users/Lenovo/Desktop/waseet_project/pubspec.yaml)
+- Audit dependencies and remove unused ones.
+- Check for outdated packages.
+
+#### `lib/core/` & `lib/features/`
+- Ensure no hardcoded API keys or secrets are present in the source code.
+- Validate input handling in Auth blocs/usecases to prevent injection or invalid data submissions.
+
+### Phase 4: Testing, Git & Deployment
+*Establish robust testing and deployment foundations.*
+
+#### [MODIFY] [.gitignore](file:///c:/Users/Lenovo/Desktop/waseet_project/.gitignore)
+- Ensure the `.gitignore` contains all standard Flutter/Dart exclusions, IDE configurations, and environment/secret files.
+
+#### [NEW] [test/](file:///c:/Users/Lenovo/Desktop/waseet_project/test/)
+- Create basic unit test templates for UseCases and BLoCs.
+- Create widget test examples for core UI components.
+
+#### [NEW] [docs/deployment_checklist.md](file:///c:/Users/Lenovo/Desktop/waseet_project/docs/deployment_checklist.md)
+- Create a comprehensive checklist for releasing Android/iOS builds (keys, signing, ProGuard, etc.).
+
+## Verification Plan
+
+### Automated Tests
+- Run `flutter analyze` to ensure zero lint issues.
+- Run `flutter test` to execute newly added test scenarios.
+
+### Manual Verification
+- Build and run the app to ensure no breaking changes were introduced during code cleanup.
+- Verify that error handling works as expected.

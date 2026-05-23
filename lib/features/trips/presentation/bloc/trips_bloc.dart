@@ -4,6 +4,9 @@ import 'package:waseet_project/features/trips/domain/usecases/get_trips_usecase.
 import 'trips_event.dart';
 import 'trips_state.dart';
 
+/// [TripsBloc] handles the state management of trip-related events.
+/// It orchestrates the loading of trips and the addition of new trips
+/// using the corresponding domain UseCases.
 class TripsBloc extends Bloc<TripsEvent, TripsState> {
   final CreateTripUseCase createTripUseCase;
   final GetTripsUseCase getTripsUseCase;

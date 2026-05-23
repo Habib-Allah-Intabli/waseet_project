@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
+import 'package:waseet_project/core/error/exceptions.dart';
 import 'package:waseet_project/features/auth/data/models/user_model.dart';
 import 'package:waseet_project/features/auth/domain/entities/user.dart';
 
@@ -40,7 +41,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
           .timeout(_timeout);
 
       if (credential.user == null) {
-        throw Exception('فشل إنشاء الحساب، يرجى المحاولة لاحقاً');
+        throw const ServerException('فشل إنشاء الحساب، يرجى المحاولة لاحقاً');
       }
 
       // 2. Get FCM Token (Only for supported platforms: Mobile and Web)
@@ -74,11 +75,11 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
       return updatedModel;
     } on FirebaseAuthException catch (e) {
-      throw Exception(_mapAuthError(e));
+      throw ServerException(_mapAuthError(e));
     } on FirebaseException catch (e) {
-      throw Exception(_mapFirebaseError(e));
+      throw ServerException(_mapFirebaseError(e));
     } catch (e) {
-      throw Exception('حدث خطأ غير متوقع: $e');
+      throw ServerException('حدث خطأ غير متوقع: $e');
     }
   }
 
@@ -94,7 +95,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
           .timeout(_timeout);
 
       if (credential.user == null) {
-        throw Exception('فشل تسجيل الدخول');
+        throw const ServerException('فشل تسجيل الدخول');
       }
 
       // 2. Get User profile from Firestore
@@ -105,7 +106,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
           .timeout(_timeout);
 
       if (!doc.exists || doc.data() == null) {
-        throw Exception('بيانات المستخدم غير موجودة في قاعدة البيانات');
+        throw const ServerException('بيانات المستخدم غير موجودة في قاعدة البيانات');
       }
 
       final userModel = UserModel.fromMap(doc.data()!);
@@ -126,11 +127,11 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
       return userModel;
     } on FirebaseAuthException catch (e) {
-      throw Exception(_mapAuthError(e));
+      throw ServerException(_mapAuthError(e));
     } on FirebaseException catch (e) {
-      throw Exception(_mapFirebaseError(e));
+      throw ServerException(_mapFirebaseError(e));
     } catch (e) {
-      throw Exception('حدث خطأ: $e');
+      throw ServerException('حدث خطأ: $e');
     }
   }
 
@@ -146,9 +147,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       if (!doc.exists || doc.data() == null) return null;
       return UserModel.fromMap(doc.data()!);
     } on FirebaseException catch (e) {
-      throw Exception(_mapFirebaseError(e));
+      throw ServerException(_mapFirebaseError(e));
     } catch (e) {
-      throw Exception('فشل جلب بيانات المستخدم');
+      throw const ServerException('فشل جلب بيانات المستخدم');
     }
   }
 
@@ -166,9 +167,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
           .update(user.toMap())
           .timeout(_timeout);
     } on FirebaseException catch (e) {
-      throw Exception(_mapFirebaseError(e));
+      throw ServerException(_mapFirebaseError(e));
     } catch (e) {
-      throw Exception('فشل تحديث بيانات المستخدم: $e');
+      throw ServerException('فشل تحديث بيانات المستخدم: $e');
     }
   }
 

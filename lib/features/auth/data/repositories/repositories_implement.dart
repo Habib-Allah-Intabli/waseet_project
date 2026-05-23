@@ -31,7 +31,7 @@ class RepositoriesImplement implements AuthRepository {
       await localDataSource.saveSession(resultUser.uId);
       return Right(resultUser);
     } catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Left(handleException(e));
     }
   }
 
@@ -48,7 +48,7 @@ class RepositoriesImplement implements AuthRepository {
       await localDataSource.saveSession(user.uId);
       return Right(user);
     } catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Left(handleException(e));
     }
   }
 
@@ -60,7 +60,7 @@ class RepositoriesImplement implements AuthRepository {
       final user = await remoteDataSource.getUserById(uId);
       return Right(user);
     } catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Left(handleException(e));
     }
   }
 
@@ -71,7 +71,7 @@ class RepositoriesImplement implements AuthRepository {
       await localDataSource.clearSession();
       return const Right(null);
     } catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Left(handleException(e));
     }
   }
 
@@ -89,7 +89,7 @@ class RepositoriesImplement implements AuthRepository {
       await remoteDataSource.updateUser(user: model);
       return const Right(null);
     } catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Left(handleException(e));
     }
   }
 

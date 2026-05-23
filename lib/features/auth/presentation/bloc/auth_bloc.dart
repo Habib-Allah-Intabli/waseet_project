@@ -41,6 +41,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       return;
     }
 
+    emit(AuthState.loading());
     final result = await getSavedSessionUsecase();
     result.fold((failure) => emit(AuthState.unauthenticated()), (user) {
       if (user != null) {
@@ -91,7 +92,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     UpdateProfileRequested event,
     Emitter<AuthState> emit,
   ) async {
-    emit(state.copyWith(status: AuthStatus.loading));
+    emit(state.copyWith(status: AuthStatus.loading, user: event.user));
     final result = await updateProfileUseCase(user: event.user);
     result.fold(
       (failure) => emit(state.copyWith(

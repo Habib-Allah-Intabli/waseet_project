@@ -39,7 +39,6 @@ dependencies:
   get_it: ^9.2.1
   hive: ^2.2.3
   equatable: ^2.0.8
-  build_runner: ^2.4.13
   json_annotation: ^4.9.0
   hive_flutter: ^1.1.0
   dartz: ^0.10.1
@@ -53,6 +52,7 @@ dependencies:
   firebase_auth: ^6.4.0
   shared_preferences: ^2.5.2
   easy_localization: ^3.0.7
+  intl: ^0.20.2
 
 dev_dependencies:
   flutter_test:
@@ -60,6 +60,7 @@ dev_dependencies:
   integration_test:
     sdk: flutter
   mocktail: ^1.0.2
+  build_runner: ^2.4.13
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
